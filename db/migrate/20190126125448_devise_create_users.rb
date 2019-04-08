@@ -5,8 +5,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
     create_table :users do |t|
 
       # Custom fields
-      t.string :first_name
-      t.string :last_name
+      t.string :name
       t.boolean :admin, default: false, null: false
 
       ## Database authenticatable

@@ -254,6 +254,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   chromedriver-helper
+  devise
   devise-jwt
   elasticsearch-model!
   elasticsearch-rails!
