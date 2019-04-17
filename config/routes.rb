@@ -20,6 +20,8 @@ Rails.application.routes.draw do
       # get ':id/courses', controller: 'related', action: :courses
     end
 
+    resources :tasks, except: [:show]
+
   #   namespace 'admin' do
   #     resources :users, only: %i[index update]
   #     resources :hours, only: %i[index create update destroy]
