@@ -1,7 +1,6 @@
 class TasksController < ApplicationController
   def index
-    p params
-    render json: current_user.tasks.where(day: params[:day])
+    render json: current_user.tasks.where(day: params[:day]).order(:completed, :title)
   end
 
   def create

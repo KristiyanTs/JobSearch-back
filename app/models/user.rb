@@ -26,6 +26,7 @@ class User < ApplicationRecord
          jwt_revocation_strategy: JWTBlacklist
 
   has_many :tasks
+  has_many :logs
 
   def attributes
     { id: id, email: email, admin: admin, name: name }

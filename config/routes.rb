@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     end
 
     resources :tasks, except: [:show]
+    resources :logs, only: [:show, :update]
 
   #   namespace 'admin' do
   #     resources :users, only: %i[index update]
