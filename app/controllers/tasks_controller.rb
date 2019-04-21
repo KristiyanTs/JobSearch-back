@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   def index
-    render json: current_user.tasks.where(day: params[:day]).order(:completed, :title)
+    Task.create_recurrent(current_user) if Date.parse(params[:day]) == Date.today
+    render json: current_user.tasks.where(day: Date.parse(params[:day])).order(:completed, :title)
   end
 
   def create
