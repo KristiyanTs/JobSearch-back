@@ -1,6 +1,5 @@
 class TasksController < ApplicationController
   def index
-    Task.create_recurrent(current_user) if Date.parse(params[:day]) == Date.today
     render json: current_user.tasks.where(day: Date.parse(params[:day])).order(:completed, :title)
   end
 
@@ -32,6 +31,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :body, :recurrent, :flag, :completed, :day)
+    params.require(:task).permit(:title, :completed, :day)
   end
 end

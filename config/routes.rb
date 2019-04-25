@@ -15,21 +15,9 @@ Rails.application.routes.draw do
                  registrations: 'users/registrations',
                  passwords: 'users/passwords'
                }
-    
-               namespace 'users' do
-      # get ':id/courses', controller: 'related', action: :courses
-    end
 
     resources :tasks, except: [:show]
     resources :logs, only: [:show, :update]
-
-  #   namespace 'admin' do
-  #     resources :users, only: %i[index update]
-  #     resources :hours, only: %i[index create update destroy]
-  #     resources :teaching_sessions, only: %i[create update destroy]
-  #     resources :expertises, only: %i[index create destroy]
-  #     resources :courses, only: %i[create update destroy]
-  #     resources :reports, only: %i[index show update]
-  #   end
+    resources :notes
   end
 end

@@ -27,6 +27,7 @@ class User < ApplicationRecord
 
   has_many :tasks
   has_many :logs
+  has_many :notes
 
   def attributes
     { id: id, email: email, admin: admin, name: name }
