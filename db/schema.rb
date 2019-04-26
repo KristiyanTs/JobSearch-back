@@ -42,7 +42,8 @@ ActiveRecord::Schema.define(version: 2019_04_21_165037) do
   create_table "tasks", force: :cascade do |t|
     t.string "title", null: false
     t.date "day"
-    t.boolean "completed", default: false
+    t.datetime "times", default: [], array: true
+    t.integer "status", default: 0
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
