@@ -24,9 +24,10 @@ gem 'rack-proxy', '~> 0.6.4'
 # background jobs
 gem 'sucker_punch'
 
-#elastic search
-gem 'elasticsearch-model', github: 'elastic/elasticsearch-rails', branch: '6.x'
-gem 'elasticsearch-rails', github: 'elastic/elasticsearch-rails', branch: '6.x'
+gem 'capistrano', '~> 3.11'
+gem 'capistrano-rails', '~> 1.4'
+gem 'capistrano-passenger', '~> 0.2.0'
+gem 'capistrano-rbenv', '~> 2.1', '>= 2.1.4'
 
 group :development, :test do
   gem 'rb-readline'

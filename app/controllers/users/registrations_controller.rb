@@ -3,6 +3,19 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
+  def show
+    render json: current_user
+  end
+
+  def update_profile
+    @user = current_user
+    if @user.update(account_update_params.except("current_password"))
+      render json: @user
+    else
+      render json: @user.errors
+    end    
+  end
+
   def create
     build_resource(sign_up_params)
 
