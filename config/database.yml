@@ -6,7 +6,7 @@ default: &default
 
 development:
   <<: *default
-  database: productivity_development
+  database: daylogs_development
   username: infbase
   password: <%= ENV['DATABASE_PASSWORD'] %>
 
@@ -42,7 +42,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: productivity_test
+  database: daylogs_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -65,6 +65,6 @@ test:
 #
 production:
   <<: *default
-  database: inf_base_production
-  username: infbase
+  database: daylogs_production
+  username: deploy
   password: <%= ENV['DATABASE_PASSWORD'] %>
