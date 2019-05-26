@@ -67,4 +67,6 @@ production:
   <<: *default
   database: daylogs_production
   username: deploy
-  password: <%= ENV['DATABASE_PASSWORD'] %>
+  password: <%= Rails.application.credentials.dig(:postgres, :password) %>
+  host: database
+
