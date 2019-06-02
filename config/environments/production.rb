@@ -19,6 +19,7 @@ Rails.application.configure do
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   config.require_master_key = true
+  config.read_encrypted_secrets = true
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -97,7 +98,7 @@ Rails.application.configure do
   #Email sending setup
   config.action_mailer.delivery_method       = :smtp
   config.action_mailer.perform_deliveries    = true
-  config.action_mailer.default_url_options   = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options   = { host: 'daylogs.app' }
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
