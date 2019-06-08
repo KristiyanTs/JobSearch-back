@@ -18,9 +18,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
-
+    # resource.skip_confirmation_notification!
     resource.save
-    render_resource(resource)
+    render json: resource
   end
 
   private
