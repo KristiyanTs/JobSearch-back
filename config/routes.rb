@@ -13,7 +13,8 @@ Rails.application.routes.draw do
                controllers: {
                  sessions: 'users/sessions',
                  registrations: 'users/registrations',
-                 passwords: 'users/passwords'
+                 passwords: 'users/passwords',
+                 confirmations: 'users/confirmations'
                }
     devise_scope :user do
       get '/profile', controller: 'users/registrations', action: :show
