@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   def index
-    tasks = current_user.tasks.where(day: Date.parse(params[:day])).order(:status, :title)
+    tasks = current_user.tasks.where(day: Date.parse(params[:day]))
     render json: tasks.as_json(methods: :total_time)
   end
 
@@ -27,6 +27,11 @@ class TasksController < ApplicationController
   def destroy
     @task = current_user.tasks.find(params[:id])
     @task.destroy
+  end
+
+  def update_order
+    tasks = Task.update_order(current_user, Date.parse(params[:day]), params[:tasks])
+    render json: tasks, status: 200
   end
 
   private

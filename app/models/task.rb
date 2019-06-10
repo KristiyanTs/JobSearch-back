@@ -3,6 +3,7 @@ class Task < ApplicationRecord
 
   enum status: [:created, :running, :paused, :completed]
   before_save :check_status
+  after_create :calculate_position
 
   def check_status
     return unless status_changed?
@@ -28,5 +29,18 @@ class Task < ApplicationRecord
       time = (-1...times.length).step(2).inject {|time, idx| time + times[idx].to_i - times[idx-1].to_i}
       return time + Time.now.to_i - times.last.to_i
     end
+  end
+
+  def self.update_order(user, day, tasks)
+    tasks.map.with_index do |task, idx| 
+      t = user.tasks.find_by(id: task[:id])
+      t.update(position: idx)
+      t
+    end
+  end
+
+  def calculate_position
+    i_position = user.tasks.where(day: day).count
+    update(position: i_position)
   end
 end
