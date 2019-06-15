@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     devise_scope :user do
       get '/profile', controller: 'users/registrations', action: :show
       put '/profile/update', controller: 'users/registrations', action: :update_profile
+      put '/confirmation' => 'users/confirmations#update'
     end
 
     resources :tasks, except: [:show]

@@ -3,10 +3,10 @@
 class Users::ConfirmationsController < Devise::ConfirmationsController
   respond_to :json
 
-  private
+  def update
+    @user = User.find_by(confirmation_token: params[:confirmation_token])
+    @user.confirm if @user.valid?
 
-  def after_confirmation_path_for(resource_name, resource)
-    sign_in(resource)
-    render json: resource, status: 200
+    render json: @user
   end
 end
