@@ -18,8 +18,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
-    resource.save
-    render json: resource
+    if resource.save
+      render json: resource, status: 201
+    else
+      render json: resource.errors.full_messages, status: 409
+    end
   end
 
   private
