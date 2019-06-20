@@ -2,7 +2,7 @@ class NotesController < ApplicationController
   before_action :set_note, except: [:index, :create]
 
   def index
-    render json: current_user.notes.as_json
+    render json: current_user.notes.order(updated_at: :desc).as_json
   end
 
   def show
