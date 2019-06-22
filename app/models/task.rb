@@ -1,5 +1,7 @@
 class Task < ApplicationRecord
   belongs_to :user
+  belongs_to :supertask, class_name: "Task", foreign_key: "task_id", optional: true
+  has_many :subtasks, class_name: "Task"
 
   enum status: [:created, :running, :paused, :completed]
   before_save :check_status

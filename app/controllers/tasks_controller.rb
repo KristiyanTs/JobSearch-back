@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   def index
-    tasks = current_user.tasks.where(day: Date.parse(params[:day]))
+    tasks = current_user.tasks.where(day: Date.parse(params[:day])).order(:position)
     render json: tasks.as_json(methods: :total_time)
   end
 
@@ -37,6 +37,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :status, :day)
+    params.require(:task).permit(:title, :status, :day, :color, :description)
   end
 end
