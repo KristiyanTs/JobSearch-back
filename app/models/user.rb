@@ -25,11 +25,20 @@ class User < ApplicationRecord
          :jwt_authenticatable,
          jwt_revocation_strategy: JWTBlacklist
 
+  has_one_attached :avatar
+
   has_many :tasks
   has_many :logs
   has_many :notes
+  has_many :nodes
+  has_many :favorites
 
   def attributes
     { id: id, email: email, admin: admin, name: name }
+    # Niko pls add the avatar here
+  end
+
+  def is_favorite node
+    !favorites.find_by(node: node).nil?
   end
 end

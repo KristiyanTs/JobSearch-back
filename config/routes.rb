@@ -25,6 +25,11 @@ Rails.application.routes.draw do
     resources :tasks, except: [:show]
     resources :logs, only: [:show, :update]
     resources :notes
+    resources :nodes do
+      resources :statuses
+      resources :categories
+    end
+    resources :favorites
 
     post '/tasks/update_order', controller: 'tasks', action: :update_order
   end

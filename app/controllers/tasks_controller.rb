@@ -5,28 +5,28 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = current_user.tasks.new(task_params)
+    task = current_user.tasks.new(task_params)
 
-    if @task.save
-      render json: @task.as_json(methods: :total_time), status: :ok
+    if task.save
+      render json: task.as_json(methods: :total_time), status: :ok
     else
-      render json: @task.errors, status: :unprocessable_entity
+      render json: task.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    @task = current_user.tasks.find(params[:id])
+    task = current_user.tasks.find(params[:id])
 
-    if @task.update(task_params)
-      render json: @task.as_json(methods: :total_time), status: :ok
+    if task.update(task_params)
+      render json: task.as_json(methods: :total_time), status: :ok
     else
-      render json: @task.errors, status: :unprocessable_entity
+      render json: task.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @task = current_user.tasks.find(params[:id])
-    @task.destroy
+    task = current_user.tasks.find(params[:id])
+    task.destroy
   end
 
   def update_order

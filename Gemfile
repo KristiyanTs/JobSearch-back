@@ -24,6 +24,9 @@ gem 'rack-proxy', '~> 0.6.4'
 # background jobs
 gem 'sucker_punch'
 
+# image processing
+gem 'mini_magick'
+
 group :development, :test do
   gem 'rb-readline'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

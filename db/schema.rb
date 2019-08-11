@@ -10,10 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_10_185933) do
+ActiveRecord::Schema.define(version: 2019_08_11_085143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "color"
+    t.string "icon"
+    t.string "icon_color"
+    t.bigint "node_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_categories_on_node_id"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "node_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_favorites_on_node_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
 
   create_table "jwt_blacklist", force: :cascade do |t|
     t.string "jti", null: false
@@ -30,6 +72,29 @@ ActiveRecord::Schema.define(version: 2019_06_10_185933) do
     t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
+  create_table "nodes", force: :cascade do |t|
+    t.string "title"
+    t.string "short_description"
+    t.text "description"
+    t.integer "priority"
+    t.bigint "root_id"
+    t.bigint "parent_id"
+    t.bigint "user_id"
+    t.bigint "reporter_id"
+    t.bigint "assigned_id"
+    t.bigint "status_id"
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assigned_id"], name: "index_nodes_on_assigned_id"
+    t.index ["category_id"], name: "index_nodes_on_category_id"
+    t.index ["parent_id"], name: "index_nodes_on_parent_id"
+    t.index ["reporter_id"], name: "index_nodes_on_reporter_id"
+    t.index ["root_id"], name: "index_nodes_on_root_id"
+    t.index ["status_id"], name: "index_nodes_on_status_id"
+    t.index ["user_id"], name: "index_nodes_on_user_id"
+  end
+
   create_table "notes", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -39,15 +104,25 @@ ActiveRecord::Schema.define(version: 2019_06_10_185933) do
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
+  create_table "statuses", force: :cascade do |t|
+    t.string "title"
+    t.string "color"
+    t.string "description"
+    t.bigint "node_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_statuses_on_node_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "title", null: false
+    t.integer "status", default: 0
+    t.integer "position"
     t.date "day"
     t.datetime "times", default: [], array: true
-    t.integer "status", default: 0
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "position"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
@@ -70,6 +145,7 @@ ActiveRecord::Schema.define(version: 2019_06_10_185933) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "logs", "users"
   add_foreign_key "notes", "users"
   add_foreign_key "tasks", "users"

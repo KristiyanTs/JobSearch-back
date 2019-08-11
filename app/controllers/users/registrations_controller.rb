@@ -8,12 +8,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def update_profile
-    @user = current_user
-    if @user.update(account_update_params.except("current_password"))
-      render json: @user
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+    resource.avatar.attach(account_update_params[:avatar]) if account_update_params[:avatar]
+    resource_updated = resource.update_without_password(account_update_params)
+    yield resource if block_given?
+
+    if resource_updated
+      bypass_sign_in resource, scope: resource_name
+      render json: resource, status: 200
     else
-      render json: @user.errors
-    end    
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end  
   end
 
   def create
@@ -28,10 +37,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:avatar, :name, :email, :password, :password_confirmation)
   end
 
   def account_update_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :current_password)
+    params.require(:user).permit(:avatar, :name, :email, :password, :password_confirmation, :current_password)
   end
 end

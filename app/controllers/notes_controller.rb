@@ -10,12 +10,12 @@ class NotesController < ApplicationController
   end
 
   def create
-    @note = current_user.notes.new(note_params)
+    note = current_user.notes.new(note_params)
 
-    if @note.save
-      render json: @note.as_json, status: :ok
+    if note.save
+      render json: note.as_json, status: :ok
     else
-      render json: @note.errors, status: :unprocessable_entity
+      render json: note.errors, status: :unprocessable_entity
     end
   end
 
