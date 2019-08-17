@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_085143) do
+ActiveRecord::Schema.define(version: 2019_08_17_133819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,16 @@ ActiveRecord::Schema.define(version: 2019_08_11_085143) do
     t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
+  create_table "memberships", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "node_id"
+    t.boolean "accepted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_memberships_on_node_id"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
   create_table "nodes", force: :cascade do |t|
     t.string "title"
     t.string "short_description"
@@ -79,7 +89,6 @@ ActiveRecord::Schema.define(version: 2019_08_11_085143) do
     t.integer "priority"
     t.bigint "root_id"
     t.bigint "parent_id"
-    t.bigint "user_id"
     t.bigint "reporter_id"
     t.bigint "assigned_id"
     t.bigint "status_id"
@@ -92,7 +101,6 @@ ActiveRecord::Schema.define(version: 2019_08_11_085143) do
     t.index ["reporter_id"], name: "index_nodes_on_reporter_id"
     t.index ["root_id"], name: "index_nodes_on_root_id"
     t.index ["status_id"], name: "index_nodes_on_status_id"
-    t.index ["user_id"], name: "index_nodes_on_user_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -147,6 +155,8 @@ ActiveRecord::Schema.define(version: 2019_08_11_085143) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "logs", "users"
+  add_foreign_key "memberships", "nodes"
+  add_foreign_key "memberships", "users"
   add_foreign_key "notes", "users"
   add_foreign_key "tasks", "users"
 end

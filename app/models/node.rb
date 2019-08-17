@@ -1,7 +1,6 @@
 class Node < ApplicationRecord
   belongs_to :root, class_name: "Node", optional: true
   belongs_to :parent, class_name: "Node", optional: true
-  belongs_to :user, optional: true
   belongs_to :assigned, class_name: "User", optional: true
   belongs_to :reporter, class_name: "User", optional: true
   belongs_to :status, optional: true
@@ -14,7 +13,29 @@ class Node < ApplicationRecord
   accepts_nested_attributes_for :statuses
   has_many :categories, dependent: :delete_all
   accepts_nested_attributes_for :categories
+  has_many :memberships
+  has_many :member, through: :memberships
 
+  def attributes
+    { 
+      id: id, 
+      title: title, 
+      reporter: reporter, 
+      assigned: assigned, 
+      category: category,
+      categories: categories,
+      status: status,
+      statuses: statuses
+      # avatar: (rails_blob_url(avatar) if avatar.attached?)
+    }
+  end
 
-  #TODO Nodes could have requirements model which could serve for testing purposes
+  def attach_node_info
+    as_json.merge(
+      root: root, 
+      parent: parent, 
+      child_nodes: children.where(status: nil, category: nil),
+      child_tasks: children.where.not(status: nil, category: nil)
+    )
+  end
 end

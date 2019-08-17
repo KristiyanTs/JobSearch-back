@@ -2,21 +2,15 @@ class NodesController < ApplicationController
   before_action :set_node, only: [:show, :update, :destroy]
 
   def index
-    render json: current_user.nodes
+    render json: Node.where(reporter: current_user, root_id: nil).map(&:attach_node_info)
   end
 
   def show
-    render json: {
-      root: @node.root, 
-      parent: @node.parent,
-      node: @node.as_json.merge(favorite: current_user.is_favorite(@node)), 
-      child_nodes: @node.children.where(category_id: nil, status_id: nil),
-      child_tasks: @node.children.where.not(category_id: nil, status_id: nil)
-    }
+    render json: @node.attach_node_info
   end
 
   def create
-    node = Node.new(node_params)
+    node = current_user.nodes.new(node_params)
     
     if node_params[:parent_id]
       node_parent = Node.find(node_params[:parent_id])
@@ -33,6 +27,21 @@ class NodesController < ApplicationController
   end
 
   def update
+    if node_params[:categories_attributes]
+      categories_to_remove = @node.categories.pluck(:id) - node_params[:categories_attributes].pluck(:id)
+      @node.categories.where(id: categories_to_remove).destroy_all
+    end
+
+    if node_params[:statuses_attributes]
+      statuses_to_remove = @node.statuses.pluck(:id) - node_params[:statuses_attributes].pluck(:id)
+      @node.statuses.where(id: statuses_to_remove).destroy_all
+    end
+
+    if @node.update(node_params)
+      render json: @node
+    else
+      render json: @node.errors
+    end
   end
 
   def destroy

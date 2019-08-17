@@ -27,12 +27,14 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
-  has_many :tasks
-  has_many :logs
-  has_many :notes
-  has_many :nodes
-  has_many :favorites
-
+  has_many :tasks, dependent: :delete_all
+  has_many :logs, dependent: :delete_all
+  has_many :notes, dependent: :delete_all
+  has_many :nodes, foreign_key: :reporter_id
+  has_many :favorites, dependent: :delete_all
+  has_many :memberships, dependent: :delete_all
+  has_many :projects, through: :memberships
+  
   def attributes
     { id: id, email: email, admin: admin, name: name }
     # Niko pls add the avatar here
