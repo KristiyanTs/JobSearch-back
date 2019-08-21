@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_17_133819) do
+ActiveRecord::Schema.define(version: 2019_08_18_101700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,17 @@ ActiveRecord::Schema.define(version: 2019_08_17_133819) do
     t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
+  create_table "invitations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "node_id"
+    t.string "email", null: false
+    t.boolean "rejected", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_invitations_on_node_id"
+    t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
   create_table "jwt_blacklist", force: :cascade do |t|
     t.string "jti", null: false
     t.datetime "exp", null: false
@@ -75,10 +86,12 @@ ActiveRecord::Schema.define(version: 2019_08_17_133819) do
   create_table "memberships", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "node_id"
+    t.bigint "role_id"
     t.boolean "accepted", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_memberships_on_node_id"
+    t.index ["role_id"], name: "index_memberships_on_role_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
@@ -110,6 +123,23 @@ ActiveRecord::Schema.define(version: 2019_08_17_133819) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string "instance"
+    t.string "ability"
+    t.bigint "role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["role_id"], name: "index_permissions_on_role_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "node_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_roles_on_node_id"
   end
 
   create_table "statuses", force: :cascade do |t|
@@ -154,9 +184,14 @@ ActiveRecord::Schema.define(version: 2019_08_17_133819) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "invitations", "nodes"
+  add_foreign_key "invitations", "users"
   add_foreign_key "logs", "users"
   add_foreign_key "memberships", "nodes"
+  add_foreign_key "memberships", "roles"
   add_foreign_key "memberships", "users"
   add_foreign_key "notes", "users"
+  add_foreign_key "permissions", "roles"
+  add_foreign_key "roles", "nodes"
   add_foreign_key "tasks", "users"
 end

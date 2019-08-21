@@ -28,6 +28,9 @@ Rails.application.routes.draw do
     resources :nodes do
       resources :statuses
       resources :categories
+      resources :roles
+      resources :invitations
+      resources :memberships
     end
     resources :favorites
 

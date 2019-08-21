@@ -13,8 +13,10 @@ class Node < ApplicationRecord
   accepts_nested_attributes_for :statuses
   has_many :categories, dependent: :delete_all
   accepts_nested_attributes_for :categories
-  has_many :memberships
+  has_many :memberships, dependent: :delete_all
   has_many :member, through: :memberships
+  has_many :roles, dependent: :delete_all
+  accepts_nested_attributes_for :roles
 
   def attributes
     { 
@@ -25,7 +27,8 @@ class Node < ApplicationRecord
       category: category,
       categories: categories,
       status: status,
-      statuses: statuses
+      statuses: statuses,
+      roles: roles
       # avatar: (rails_blob_url(avatar) if avatar.attached?)
     }
   end
