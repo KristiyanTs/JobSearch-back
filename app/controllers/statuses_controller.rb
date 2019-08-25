@@ -13,7 +13,7 @@ class StatusesController < ApplicationController
   end
 
   def create
-    @status = Node.statuses.new(status_params)
+    @status = @node.statuses.new(status_params)
 
     if @status.save
       render json: @status, status: :ok

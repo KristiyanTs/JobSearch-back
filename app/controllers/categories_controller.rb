@@ -13,7 +13,7 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    @category = Node.categories.new(status_params)
+    @category = @node.categories.new(category_params)
 
     if @category.save
       render json: @category, status: :ok
@@ -49,6 +49,6 @@ class CategoriesController < ApplicationController
   end
 
   def category_params
-    params.require(:category).permit(:label, :icon, :color, :node_id)
+    params.require(:category).permit(:title, :description, :color, :icon, :icon_color, :node_id)
   end
 end
