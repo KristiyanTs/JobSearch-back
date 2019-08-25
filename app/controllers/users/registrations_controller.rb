@@ -7,6 +7,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     render json: current_user
   end
 
+  # Should be fixed
+  # One action for updatiing without a password
+  # One action for uupdating more important parameters with a password
   def update_profile
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)

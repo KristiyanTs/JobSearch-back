@@ -10,13 +10,11 @@ class Node < ApplicationRecord
   has_many :children, class_name: "Node", foreign_key: :parent_id
   has_many :favorites, dependent: :delete_all
   has_many :statuses, dependent: :delete_all
-  accepts_nested_attributes_for :statuses
   has_many :categories, dependent: :delete_all
-  accepts_nested_attributes_for :categories
+  has_many :invitations, dependent: :delete_all
   has_many :memberships, dependent: :delete_all
   has_many :member, through: :memberships
   has_many :roles, dependent: :delete_all
-  accepts_nested_attributes_for :roles
 
   def attributes
     { 
@@ -37,8 +35,7 @@ class Node < ApplicationRecord
     as_json.merge(
       root: root, 
       parent: parent, 
-      child_nodes: children.where(status: nil, category: nil),
-      child_tasks: children.where.not(status: nil, category: nil)
+      nodes: children
     )
   end
 end
