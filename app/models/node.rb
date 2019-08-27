@@ -22,10 +22,8 @@ class Node < ApplicationRecord
       title: title, 
       reporter: reporter, 
       assigned: assigned, 
-      category: category,
-      categories: categories,
-      status: status,
-      statuses: statuses,
+      category_id: category_id,
+      status_id: status_id,
       roles: roles
       # avatar: (rails_blob_url(avatar) if avatar.attached?)
     }
