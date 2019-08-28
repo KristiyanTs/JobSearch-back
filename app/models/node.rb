@@ -24,15 +24,15 @@ class Node < ApplicationRecord
       assigned: assigned, 
       category_id: category_id,
       status_id: status_id,
-      roles: roles
+      roles: roles,
+      parent_id: parent_id
       # avatar: (rails_blob_url(avatar) if avatar.attached?)
     }
   end
 
   def attach_node_info
     as_json.merge(
-      root: root, 
-      parent: parent, 
+      root_id: root_id,
       nodes: children
     )
   end
