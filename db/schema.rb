@@ -60,11 +60,13 @@ ActiveRecord::Schema.define(version: 2019_08_18_101700) do
   create_table "invitations", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "node_id"
+    t.bigint "role_id"
     t.string "email", null: false
     t.boolean "rejected", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_invitations_on_node_id"
+    t.index ["role_id"], name: "index_invitations_on_role_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
   end
 
@@ -185,6 +187,7 @@ ActiveRecord::Schema.define(version: 2019_08_18_101700) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "invitations", "nodes"
+  add_foreign_key "invitations", "roles"
   add_foreign_key "invitations", "users"
   add_foreign_key "logs", "users"
   add_foreign_key "memberships", "nodes"

@@ -20,7 +20,7 @@ class NodesController < ApplicationController
 
     if node.save
       Favorite.create(user: current_user, node: node) unless node_params[:parent_id]
-      render json: node.as_json, status: :ok
+      render json: node.attach_node_info, status: :ok
     else
       render json: node.errors, status: :unprocessable_entity
     end
