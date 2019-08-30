@@ -26,7 +26,10 @@ class Node < ApplicationRecord
       status_id: status_id,
       roles: roles,
       parent_id: parent_id,
-      description: description
+      description: description,
+      created_at: created_at,
+      updated_at: updated_at,
+      root_id: root_id
       # avatar: (rails_blob_url(avatar) if avatar.attached?)
     }
   end

@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       resources :invitations
       resources :memberships
     end
-    resources :favorites
+    resources :favorites, only: [:index, :create, :destroy]
 
     post '/tasks/update_order', controller: 'tasks', action: :update_order
   end
