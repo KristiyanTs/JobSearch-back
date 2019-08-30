@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 2019_08_18_101700) do
     t.string "title"
     t.string "color"
     t.string "description"
+    t.integer "order"
     t.bigint "node_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

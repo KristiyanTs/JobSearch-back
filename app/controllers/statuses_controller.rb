@@ -49,6 +49,6 @@ class StatusesController < ApplicationController
   end
 
   def status_params
-    params.require(:status).permit(:id, :title, :description, :color, :node_id)
+    params.require(:status).permit(:id, :title, :description, :color, :node_id, :order)
   end
 end

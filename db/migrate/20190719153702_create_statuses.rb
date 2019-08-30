@@ -4,6 +4,7 @@ class CreateStatuses < ActiveRecord::Migration[5.2]
       t.string :title
       t.string :color
       t.string :description
+      t.integer :order
       t.references :node, index: true
 
       t.timestamps
