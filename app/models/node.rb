@@ -14,7 +14,8 @@ class Node < ApplicationRecord
   has_many :invitations, dependent: :delete_all
   has_many :memberships, dependent: :delete_all
   has_many :member, through: :memberships
-  has_many :roles, dependent: :delete_all
+  has_many :roles, dependent: :delete_all,
+  has_many :comments, dependent: :delete_all
 
   def attributes
     { 

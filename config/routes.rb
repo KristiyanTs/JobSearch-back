@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       put '/confirmation' => 'users/confirmations#update'
     end
 
-    resources :tasks, except: [:show]
+    resources :tasks, except: [:show, :new, :edit]
     resources :logs, only: [:show, :update]
     resources :notes
     resources :nodes do
@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       resources :roles
       resources :invitations
       resources :memberships
+      resources :comments, except: [:new, :edit]
     end
     resources :favorites, only: [:index, :create, :destroy]
 
