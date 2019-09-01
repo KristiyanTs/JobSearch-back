@@ -3,7 +3,11 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:update, :destroy]
 
   def index
-    render json: @node.comments.map(&:has_replies)
+    render json: @node.comments.where(ancestry: nil).map(&:has_replies)
+  end
+
+  def show
+    render json: @node.comments.where(ancestry: params[:id])
   end
 
   def create
