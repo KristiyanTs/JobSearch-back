@@ -2,27 +2,20 @@ class NodesController < ApplicationController
   before_action :set_node, only: [:show, :update, :destroy]
 
   def index
-    render json: Node.where(reporter: current_user, root_id: nil).map(&:attach_node_info)
+    render json: Node.where(reporter: current_user)
   end
 
   def show
-    render json: @node.attach_node_info
+    render json: @node.attach_ancestry_info
   end
 
   def create
-    node = current_user.nodes.new(node_params)
-    
-    if node_params[:parent_id]
-      node_parent = Node.find(node_params[:parent_id])
-      node_root = node_parent.root || node_parent
-      node.root_id = node_root.id
-    end
+    @node = current_user.nodes.new(node_params)
 
-    if node.save
-      Favorite.create(user: current_user, node: node) unless node_params[:parent_id]
-      render json: node.attach_node_info, status: :ok
+    if @node.save
+      render json: @node, status: :ok
     else
-      render json: node.errors, status: :unprocessable_entity
+      render json: @node.errors, status: :unprocessable_entity
     end
   end
 
@@ -48,6 +41,6 @@ class NodesController < ApplicationController
   end
 
   def node_params
-    params.require(:node).permit(:title, :short_description, :description, :parent_id, :status_id, :category_id)
+    params.require(:node).permit(:title, :short_description, :description, :status_id, :category_id, :ancestry)
   end
 end

@@ -5,10 +5,8 @@ class CreateNodes < ActiveRecord::Migration[5.2]
       t.string :short_description
       t.text :description
       t.integer :priority
-      t.references :root, index: true
-      t.references :parent, index: true
+      t.string :ancestry, index: true
       t.references :reporter, index: true
-      t.references :assigned, index: true
       t.references :status, index: true
       t.references :category, index: true
 

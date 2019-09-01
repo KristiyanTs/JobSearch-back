@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_31_054541) do
+ActiveRecord::Schema.define(version: 2019_08_31_080842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,11 +49,13 @@ ActiveRecord::Schema.define(version: 2019_08_31_054541) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.bigint "node_id"
     t.text "content"
+    t.string "ancestry"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["ancestry"], name: "index_comments_on_ancestry"
     t.index ["node_id"], name: "index_comments_on_node_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -112,19 +114,15 @@ ActiveRecord::Schema.define(version: 2019_08_31_054541) do
     t.string "short_description"
     t.text "description"
     t.integer "priority"
-    t.bigint "root_id"
-    t.bigint "parent_id"
+    t.string "ancestry"
     t.bigint "reporter_id"
-    t.bigint "assigned_id"
     t.bigint "status_id"
     t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assigned_id"], name: "index_nodes_on_assigned_id"
+    t.index ["ancestry"], name: "index_nodes_on_ancestry"
     t.index ["category_id"], name: "index_nodes_on_category_id"
-    t.index ["parent_id"], name: "index_nodes_on_parent_id"
     t.index ["reporter_id"], name: "index_nodes_on_reporter_id"
-    t.index ["root_id"], name: "index_nodes_on_root_id"
     t.index ["status_id"], name: "index_nodes_on_status_id"
   end
 
@@ -197,7 +195,6 @@ ActiveRecord::Schema.define(version: 2019_08_31_054541) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "comments", "nodes"
   add_foreign_key "comments", "users"
   add_foreign_key "invitations", "nodes"
   add_foreign_key "invitations", "roles"

@@ -33,15 +33,11 @@ class User < ApplicationRecord
   has_many :nodes, foreign_key: :reporter_id
   has_many :favorites, dependent: :delete_all
   has_many :memberships, dependent: :delete_all
-  has_many :projects, through: :memberships,
+  has_many :projects, through: :memberships
   has_many :comments
   
   def attributes
     { id: id, email: email, admin: admin, name: name }
     # Niko pls add the avatar here
-  end
-
-  def is_favorite node
-    !favorites.find_by(node: node).nil?
   end
 end

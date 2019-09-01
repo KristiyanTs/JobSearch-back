@@ -3,11 +3,12 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:update, :destroy]
 
   def index
-    render json: @node.comments
+    render json: @node.comments.map(&:has_replies)
   end
 
   def create
     @comment = current_user.comments.new(comment_params)
+    @comment.ancestry = nil if @comment.ancestry == ""
 
     if @comment.save
       render json: @comment, status: :ok
@@ -35,7 +36,7 @@ class CommentsController < ApplicationController
   private
 
   def set_node
-    @node = Node.find(params[:node_id])
+    @node = Node.find_by_id(params[:node_id])
   end
 
   def set_comment
@@ -43,6 +44,6 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:content, :node_id)
+    params.require(:comment).permit(:content, :ancestry, :node_id)
   end
 end
