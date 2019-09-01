@@ -1,24 +1,47 @@
 # frozen_string_literal: true
 
 users = [
-  { first_name: 'Ivan1', last_name: 'Petar1', email: 'john1@gmail.com' },
-  { first_name: 'Ivan2', last_name: 'Petar2', email: 'john2@gmail.com' },
-  { first_name: 'Ivan3', last_name: 'Petar3', email: 'john3@gmail.com' },
-  { first_name: 'Ivan4', last_name: 'Petar4', email: 'john4@gmail.com' },
-  { first_name: 'Ivan5', last_name: 'Petar5', email: 'john5@gmail.com' },
-  { first_name: 'Ivan6', last_name: 'Petar6', email: 'john6@gmail.com' },
-  { first_name: 'Ivan7', last_name: 'Petar7', email: 'john7@gmail.com' },
-  { first_name: 'Ivan8', last_name: 'Petar8', email: 'john8@gmail.com' },
-  { first_name: 'Ivan9', last_name: 'Petar9', email: 'john9@gmail.com' },
-  { first_name: 'Ivan0', last_name: 'Petar0', email: 'john0@gmail.com' },
-  { first_name: 'Ivan11', last_name: 'Petar11', email: 'john11@gmail.com' },
-  { first_name: 'Ivan12', last_name: 'Petar12', email: 'john12@gmail.com' },
-  { first_name: 'Ivan13', last_name: 'Petar13', email: 'john13@gmail.com' },
-  { first_name: 'Ivan14', last_name: 'Petar14', email: 'john14@gmail.com' }
+  { name: 'Ivan1 Petkov',  email: 'john1@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan2 Petkov',  email: 'john2@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan3 Petkov',  email: 'john3@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan4 Petkov',  email: 'john4@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan5 Petkov',  email: 'john5@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan6 Petkov',  email: 'john6@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan7 Petkov',  email: 'john7@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan8 Petkov',  email: 'john8@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan9 Petkov',  email: 'john9@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan0 Petkov',  email: 'john10@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan11 Petkov', email: 'john11@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan12 Petkov', email: 'john12@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan13 Petkov', email: 'john13@gmail.com', password: 'password', password_confirmation: 'password' },
+  { name: 'Ivan14 Petkov', email: 'john14@gmail.com', password: 'password', password_confirmation: 'password' }
 ]
 
-password_params = { password: 'password', password_confirmation: 'password' }
-
 users.each do |user_params|
-  User.create_with(password_params).find_or_create_by(user_params)
+  u = User.find_or_create_by(user_params)
+  u.confirmed_at = Time.now
+  u.save
 end
+
+statuses = [
+  { title: "TODO", color: "#607D8B", order: 1 },
+  { title: "In progress", color: "#FFC107", order: 2 },
+  { title: "Done", color: "#4CAF50", order: 3 }
+]
+
+categories = [
+  { title: "Bug", color: "#fff", icon: "bug", icon_color: "#F44336"},
+  { title: "Feature", color: "#fff", icon: "plus", icon_color: "#4CAF50"},
+]
+
+nodes = [
+  { title: "Project1", ancestry: nil, user_id: 1 },
+  { title: "Project2", ancestry: nil, user_id: 2 },
+  { title: "Project3", ancestry: nil, user_id: 3 },
+  { title: "Node1", ancestry: 1, user_id: 1 },
+  { title: "Node1", ancestry: 2, user_id: 2 },
+  { title: "Node1", ancestry: 3, user_id: 3 },
+  { title: "Task1", ancestry: 1, user_id: 1 },
+  { title: "Task1", ancestry: 2, user_id: 2 },
+  { title: "Task1", ancestry: 3, user_id: 3 },
+]

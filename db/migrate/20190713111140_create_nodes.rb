@@ -5,6 +5,9 @@ class CreateNodes < ActiveRecord::Migration[5.2]
       t.string :short_description
       t.text :description
       t.integer :priority
+      t.integer :effort
+      t.integer :impact
+      t.datetime :deadline
       t.string :ancestry, index: true
       t.references :reporter, index: true
       t.references :status, index: true
