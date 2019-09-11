@@ -32,6 +32,9 @@ Rails.application.routes.draw do
       resources :invitations
       resources :memberships
       resources :comments, except: [:new, :edit]
+      collection do
+        get 'user_projects' # should probably be moved to the user's controller
+      end
     end
     resources :favorites, only: [:index, :create, :destroy]
 

@@ -1,7 +1,8 @@
 class FavoritesController < ApplicationController
 
   def index
-    render json: Node.where(id: current_user.favorites.pluck(:node_id))
+    root = Node.find(params[:root_id])
+    render json: root.subtree.where(id: current_user.favorites.pluck(:node_id))
   end
 
   def create

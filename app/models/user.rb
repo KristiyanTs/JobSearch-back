@@ -35,9 +35,15 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :delete_all
   has_many :projects, through: :memberships
   has_many :comments
+  has_many :assignments, class_name: "Assignee", dependent: :delete_all
   
   def attributes
     { id: id, email: email, admin: admin, name: name }
-    # Niko pls add the avatar here
+    # TODO: include the user avatar url
+  end
+
+  def self.projects(user)
+    Node.where(ancestry: nil, reporter: user)
+    # TODO: include the projects you belong to through Membership
   end
 end
