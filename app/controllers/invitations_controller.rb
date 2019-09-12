@@ -16,6 +16,7 @@ class InvitationsController < ApplicationController
     @invitation = @node.invitations.new(invitation_params)
 
     if @invitation.save
+      @invitation.send_to_user
       render json: @invitation, status: :ok
     else
       render json: @invitation.errors, status: :unprocessable_entity
