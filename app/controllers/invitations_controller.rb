@@ -4,7 +4,9 @@ class InvitationsController < ApplicationController
   def index
     @node = @node.root if @node.root_id
     
-    render json: @node.invitations
+    # TODO
+    # fetch the membership ni the whole tree
+    render json: @node.invitations.map(&:attach_status)
   end
 
   def create
@@ -12,7 +14,7 @@ class InvitationsController < ApplicationController
 
     if @invitation.save
       @invitation.send_to_user
-      render json: @invitation, status: :ok
+      render json: @invitation.attach_status, status: :ok
     else
       render json: @invitation.errors, status: :unprocessable_entity
     end

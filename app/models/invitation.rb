@@ -34,12 +34,26 @@ class Invitation < ApplicationRecord
     # notify team that the new member joined
   end
 
+  def status
+    if !declined && !accepted
+      "Pending"
+    else
+      "Declined"
+    end
+  end
+
   # TODO: make it a/an depending on the first letter of 'role'
   def attach_label
     project = self.node.root.title
     role = self.role.title
     as_json.merge(
       label: "Join #{project} as a #{role}."
+    )
+  end
+
+  def attach_status
+    as_json.merge(
+      status: status
     )
   end
 end
