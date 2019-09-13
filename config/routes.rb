@@ -30,7 +30,7 @@ Rails.application.routes.draw do
       resources :statuses
       resources :categories
       resources :roles
-      resources :invitations
+      resources :invitations, only: [:index, :create, :destroy]
       resources :memberships
       resources :comments, except: [:new, :edit]
       collection do

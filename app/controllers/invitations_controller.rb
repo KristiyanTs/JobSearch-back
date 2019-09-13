@@ -1,15 +1,10 @@
 class InvitationsController < ApplicationController
   before_action :set_node
-  before_action :set_invitation, only: [:show, :update, :destroy]
 
   def index
     @node = @node.root if @node.root_id
     
     render json: @node.invitations
-  end
-
-  def show
-    render json: @invitation
   end
 
   def create
@@ -23,15 +18,9 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def update
-    if @invitation.update(invitation_params)
-      render json: @invitation, status: :ok
-    else
-      render json: @invitation.errors, status: :unprocessable_entity
-    end
-  end
-
   def destroy
+    @invitation = @node.invitations.find(params[:id])
+
     if @invitation.destroy
       head :no_content
     else
@@ -43,10 +32,6 @@ class InvitationsController < ApplicationController
 
   def set_node
     @node = Node.find(params[:node_id])
-  end
-
-  def set_invitation
-    @invitation = @node.invitations.find(params[:id])
   end
 
   def invitation_params

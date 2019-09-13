@@ -2,7 +2,7 @@ class NodesController < ApplicationController
   before_action :set_node, only: [:show, :update, :destroy]
 
   def user_projects
-    render json: User.projects(current_user)
+    render json: current_user.accessible_projects
   end
 
   def index

@@ -4,15 +4,24 @@ class Users::InvitationsController < ApplicationController
   respond_to :json
 
   def index
-    render json: current_user.invitations
+    render json: current_user.active_invitations
   end
 
+  # receives declined: true if declined and accepted: true if accepted
   def update
-    # TODO
-    # allow user to either accept or decline an invitation
-    # if accepted, create a membership for this user within the node
-    # & notify all members(except current user) that a new member joined
+    @invitation = Invitation.find(params[:id]);
+
+    if invitation_params[:accepted]
+      @invitation.accept
+    else
+      @invitation.decline
+    end
+
+    render json: current_user.active_invitations
   end
 
   private
+  def invitation_params
+    params.require(:invitation).permit(:declined, :accepted)
+  end
 end

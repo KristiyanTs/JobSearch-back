@@ -83,7 +83,8 @@ ActiveRecord::Schema.define(version: 2019_09_01_141634) do
     t.bigint "node_id"
     t.bigint "role_id"
     t.string "email", null: false
-    t.boolean "rejected", default: false
+    t.boolean "accepted", default: false
+    t.boolean "declined", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_invitations_on_node_id"
@@ -110,7 +111,6 @@ ActiveRecord::Schema.define(version: 2019_09_01_141634) do
     t.bigint "user_id"
     t.bigint "node_id"
     t.bigint "role_id"
-    t.boolean "accepted", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_memberships_on_node_id"

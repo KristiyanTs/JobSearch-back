@@ -32,6 +32,7 @@ class User < ApplicationRecord
   has_many :notes, dependent: :delete_all
   has_many :nodes, foreign_key: :reporter_id
   has_many :favorites, dependent: :delete_all
+  has_many :invitations, dependent: :delete_all
   has_many :memberships, dependent: :delete_all
   has_many :projects, through: :memberships
   has_many :comments
@@ -42,8 +43,12 @@ class User < ApplicationRecord
     # TODO: include the user avatar url
   end
 
-  def self.projects(user)
-    Node.where(ancestry: nil, reporter: user)
+  def accessible_projects
+    Node.where(ancestry: nil, reporter: self)
     # TODO: include the projects you belong to through Membership
+  end
+
+  def active_invitations
+    invitations.where(declined: false, accepted: false).map(&:attach_label)
   end
 end

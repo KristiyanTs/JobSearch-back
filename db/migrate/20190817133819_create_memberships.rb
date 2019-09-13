@@ -4,7 +4,6 @@ class CreateMemberships < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true
       t.references :node, foreign_key: true
       t.references :role, foreign_key: true
-      t.boolean :accepted, default: false
 
       t.timestamps
     end
