@@ -27,11 +27,11 @@ Rails.application.routes.draw do
     resources :logs, only: [:show, :update]
     resources :notes
     resources :nodes do
-      resources :statuses
+      resources :statuses, only: [:index, :create, :update, :destroy]
       resources :categories
       resources :roles
       resources :invitations, only: [:index, :create, :destroy]
-      resources :memberships
+      resources :memberships, only: [:index, :update, :destroy]
       resources :comments, except: [:new, :edit]
       collection do
         get 'user_projects' # should probably be moved to the user's controller

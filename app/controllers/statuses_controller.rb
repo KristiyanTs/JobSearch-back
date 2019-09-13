@@ -1,15 +1,9 @@
 class StatusesController < ApplicationController
   before_action :set_node
-  before_action :set_status, only: [:show, :update, :destroy]
+  before_action :set_status, only: [:update, :destroy]
 
   def index
-    @node = @node.root if @node.root_id
-    
-    render json: @node.statuses
-  end
-
-  def show
-    render json: @status
+    render json: @node.statuses.sort_by(&:order)
   end
 
   def create
@@ -49,6 +43,6 @@ class StatusesController < ApplicationController
   end
 
   def status_params
-    params.require(:status).permit(:id, :title, :description, :color, :node_id, :order)
+    params.require(:status).permit(:title, :description, :color, :node_id, :order)
   end
 end
