@@ -31,7 +31,7 @@ class Node < ApplicationRecord
     }
   end
 
-  def attach_ancestry_info
+  def attach_ancestry
     as_json.merge(
       children: children
     )

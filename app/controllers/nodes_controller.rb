@@ -6,7 +6,7 @@ class NodesController < ApplicationController
   end
 
   def show
-    render json: @node.attach_ancestry_info
+    render json: @node.attach_ancestry
   end
 
   def create
