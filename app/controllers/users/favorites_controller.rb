@@ -1,4 +1,4 @@
-class FavoritesController < ApplicationController
+class Users::FavoritesController < ApplicationController
 
   def index
     root = Node.find(params[:root_id])
