@@ -43,9 +43,14 @@ class User < ApplicationRecord
     # TODO: include the user avatar url
   end
 
+  # TODO
+  # Use SQL to make it pretty and fast
   def accessible_projects
-    Node.where(ancestry: nil, reporter: self)
-    # TODO: include the projects you belong to through Membership
+    owned_projects = Node.where(ancestry: nil, reporter: self).pluck(:id)
+    belong_projects = memberships.pluck(:node_id)
+    all_projects = (owned_projects + belong_projects).uniq
+    
+    Node.where(id: all_projects)
   end
 
   def active_invitations

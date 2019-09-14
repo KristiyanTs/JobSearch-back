@@ -11,7 +11,7 @@ class MembershipsController < ApplicationController
     @membership = @node.memberships.find(params[:id])
 
     if @membership.update(membership_params)
-      render json: @membership, status: :ok
+      render json: @membership.attach_user_info, status: :ok
     else
       render json: @membership.errors, status: :unprocessable_entity
     end
