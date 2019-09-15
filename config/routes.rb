@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     end
 
     resources :nodes do
+      get '/subtree', action: :subtree
       resources :statuses, only: [:index, :create, :update, :destroy]
       resources :categories, only: [:index, :create, :update, :destroy]
       resources :roles, only: [:index, :create, :update, :destroy]

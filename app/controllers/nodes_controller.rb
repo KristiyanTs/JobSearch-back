@@ -5,6 +5,17 @@ class NodesController < ApplicationController
     render json: Node.where(reporter: current_user)
   end
 
+  def subtree
+    render json: Node.find(params[:node_id]).children.map{ |child| 
+      has_children = child.children.size > 0
+      # the line below doesn't work for some reason and is nice to have
+      # child = child.as_json(only: [:id, :title])
+      child = child.as_json
+      child['children']=[] if has_children
+      child 
+    }
+  end
+
   def show
     render json: @node.attach_ancestry
   end

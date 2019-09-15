@@ -27,7 +27,7 @@ class Node < ApplicationRecord
       created_at: created_at,
       updated_at: updated_at,
       ancestry: ancestry,
-      root_id: root.id,
+      root_id: root.id
     }
   end
 
