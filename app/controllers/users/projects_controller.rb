@@ -4,7 +4,7 @@ class Users::ProjectsController < ApplicationController
   respond_to :json
 
   def index
-    render json: current_user.accessible_projects.map(&:attach_ancestry)
+    render json: current_user.accessible_projects.map(&:attach.with(:children))
   end
 
   def create

@@ -17,22 +17,27 @@ class NodesController < ApplicationController
   end
 
   def show
-    render json: @node.attach_ancestry
+    render json: @node.attach(:children, :assignees)
   end
 
   def create
     @node = current_user.nodes.new(node_params)
 
     if @node.save
-      render json: @node, status: :ok
+      render json: @node.attach(:assignees), status: :ok
     else
       render json: @node.errors, status: :unprocessable_entity
     end
   end
 
   def update
+    if node_params[:assignees_attributes]
+      assignees_to_remove = @node.assignees.pluck(:id) - node_params[:assignees_attributes].pluck(:id)
+      @node.assignees.where(id: assignees_to_remove).destroy_all
+    end
+
     if @node.update(node_params)
-      render json: @node
+      render json: @node.attach(:assignees)
     else
       render json: @node.errors
     end
@@ -52,6 +57,7 @@ class NodesController < ApplicationController
   end
 
   def node_params
-    params.require(:node).permit(:title, :short_description, :description, :status_id, :category_id, :ancestry)
+    params.require(:node).permit(:title, :short_description, :description, :status_id, :category_id, :ancestry,
+                                  assignees_attributes: [:id, :user_id])
   end
 end

@@ -14,6 +14,7 @@ class Node < ApplicationRecord
   has_many :roles, dependent: :delete_all
   has_many :comments, dependent: :delete_all
   has_many :assignees, dependent: :delete_all
+  accepts_nested_attributes_for :assignees
 
   def attributes
     { 
@@ -31,9 +32,10 @@ class Node < ApplicationRecord
     }
   end
 
-  def attach_ancestry
-    as_json.merge(
-      children: children
-    )
+  def attach *args
+    params = { }
+    params["children"] = children.map(&:attach.with(:assignees)) if args.include? :children
+    params["assignees"] = assignees.as_json if args.include? :assignees
+    as_json.merge(params)
   end
 end
