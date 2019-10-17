@@ -20,21 +20,5 @@ Rails.application.routes.draw do
       put '/profile/update', controller: 'users/registrations', action: :update_profile
       put '/confirmation' => 'users/confirmations#update'
     end
-
-    namespace :users do
-      resources :invitations, only: [:index, :update]
-      resources :projects, only: [:index, :create, :update, :destroy]
-      resources :favorites, only: [:index, :create, :destroy]
-    end
-
-    resources :nodes do
-      get '/subtree', action: :subtree
-      resources :statuses, only: [:index, :create, :update, :destroy]
-      resources :categories, only: [:index, :create, :update, :destroy]
-      resources :roles, only: [:index, :create, :update, :destroy]
-      resources :invitations, only: [:index, :create, :destroy]
-      resources :memberships, only: [:index, :update, :destroy]
-      resources :comments, only: [:index, :create, :update, :destroy]
-    end
   end
 end
