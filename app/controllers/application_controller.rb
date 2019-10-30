@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::API
   include Response
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   respond_to :json
 
   def render_resource(resource)

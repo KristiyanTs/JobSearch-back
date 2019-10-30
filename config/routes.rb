@@ -20,5 +20,7 @@ Rails.application.routes.draw do
       put '/profile/update', controller: 'users/registrations', action: :update_profile
       put '/confirmation' => 'users/confirmations#update'
     end
+
+    resources :interests
   end
 end
