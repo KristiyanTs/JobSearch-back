@@ -7,7 +7,7 @@ default: &default
 development:
   <<: *default
   database: bgmentor_development
-  username: infbase
+  username: bgmentor
   password: <%= ENV['DATABASE_PASSWORD'] %>
   host: <% if ENV['DOCKERIZED'] == 'true' %>database<% else %>'localhost'<% end %>
 
