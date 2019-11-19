@@ -5,6 +5,7 @@ class CreateInterests < ActiveRecord::Migration[5.2]
       t.string :phone
       t.string :grade
       t.string :lesson
+      t.boolean :active, default: true
 
       t.timestamps
     end

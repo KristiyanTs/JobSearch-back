@@ -22,5 +22,9 @@ Rails.application.routes.draw do
     end
 
     resources :interests
+    resources :groups do
+      resources :memberships
+    end
+    resources :users
   end
 end

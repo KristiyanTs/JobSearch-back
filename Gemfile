@@ -27,9 +27,6 @@ gem 'sucker_punch'
 # image processing
 gem 'mini_magick'
 
-# Organise ActiveRecord model into a tree structure
-gem 'ancestry'
-
 group :development, :test do
   gem 'rb-readline'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

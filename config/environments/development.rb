@@ -71,9 +71,9 @@ Rails.application.configure do
     tls:                         true,
     address:                     'smtp.gmail.com',
     port:                        '465',
-    user_name:                   'moonhythe@gmail.com',
+    user_name:                   'sofia.bgmentor@gmail.com',
     password:                    ENV['EMAIL_PASSWORD'],
-    domain:                      'moonhythe.com',
+    domain:                      'bgmentor.com',
     authentication:              'plain',
     enable_starttls_auto:        true
   }
