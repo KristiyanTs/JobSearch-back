@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_13_091105) do
+ActiveRecord::Schema.define(version: 2019_11_20_212605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,18 +46,19 @@ ActiveRecord::Schema.define(version: 2019_11_13_091105) do
   end
 
   create_table "groups", force: :cascade do |t|
-    t.string "name"
-    t.integer "grade"
-    t.integer "lesson"
+    t.string "name", null: false
+    t.integer "grade", null: false
+    t.integer "lesson_type", null: false
     t.text "information"
-    t.datetime "start"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
   create_table "interests", force: :cascade do |t|
     t.string "name"
-    t.string "phone"
+    t.string "phone", null: false
     t.string "grade"
     t.string "lesson"
     t.boolean "active", default: true
@@ -73,11 +74,12 @@ ActiveRecord::Schema.define(version: 2019_11_13_091105) do
 
   create_table "lessons", force: :cascade do |t|
     t.bigint "group_id"
-    t.bigint "user_id"
+    t.integer "teacher_id"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_lessons_on_group_id"
-    t.index ["user_id"], name: "index_lessons_on_user_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -89,8 +91,20 @@ ActiveRecord::Schema.define(version: 2019_11_13_091105) do
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.bigint "membership_id"
+    t.integer "amount", default: 0, null: false
+    t.integer "month"
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["membership_id"], name: "index_payments_on_membership_id"
+  end
+
   create_table "users", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
+    t.integer "role", default: 0, null: false
+    t.integer "parent_id"
     t.boolean "admin", default: false, null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -103,8 +117,6 @@ ActiveRecord::Schema.define(version: 2019_11_13_091105) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "role"
-    t.integer "parent_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -113,8 +125,9 @@ ActiveRecord::Schema.define(version: 2019_11_13_091105) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendances", "lessons"
   add_foreign_key "attendances", "users"
+  add_foreign_key "groups", "users"
   add_foreign_key "lessons", "groups"
-  add_foreign_key "lessons", "users"
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "users"
+  add_foreign_key "payments", "memberships"
 end

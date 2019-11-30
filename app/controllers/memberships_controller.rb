@@ -2,20 +2,18 @@ class MembershipsController < ApplicationController
   before_action :set_group
 
   def index
-    render json: @group.memberships
+    render json: @group.memberships.map(&:attach_student)
   end
 
   def show
-    render json: @group.memberships.find(paramsp[:id])
+    render json: @group.memberships.find(paramsp[:id]).attach_student
   end
 
   def create
-    @membership = @group.memberships.new(membership_params)
-
-    if @membership.save
-      render json: @membership, status: :ok
+    if Membership.create(membership_params)
+      render json: @group.memberships.map(&:attach_student), status: :ok
     else
-      render json: @membership.errors, status: :unprocessable_entity
+      render status: :unprocessable_entity
     end
   end
 
@@ -42,6 +40,6 @@ class MembershipsController < ApplicationController
   end
 
   def membership_params
-    params.require(:membership).permit(:user_id)
+    params.permit(membership: [:user_id, :group_id]).require(:membership)
   end
 end

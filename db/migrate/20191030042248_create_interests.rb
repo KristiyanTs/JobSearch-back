@@ -2,7 +2,7 @@ class CreateInterests < ActiveRecord::Migration[5.2]
   def change
     create_table :interests do |t|
       t.string :name
-      t.string :phone
+      t.string :phone, null: false
       t.string :grade
       t.string :lesson
       t.boolean :active, default: true

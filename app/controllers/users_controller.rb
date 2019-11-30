@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def index
-    render json: User.all
+    render json: User.all.map(&:attach_info)
   end
 
   def show
