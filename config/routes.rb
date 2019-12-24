@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     end
     resources :payments
     resources :users
+    resources :absences, only: [:index, :create]
     resources :lessons
     resources :votes
   end
