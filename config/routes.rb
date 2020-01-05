@@ -28,7 +28,9 @@ Rails.application.routes.draw do
     resources :payments
     resources :users
     resources :absences, only: [:index, :create]
-    resources :lessons
+    resources :lessons do
+      post 'create_weekly'
+    end
     resources :votes
   end
 end
