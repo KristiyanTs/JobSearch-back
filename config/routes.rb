@@ -32,5 +32,6 @@ Rails.application.routes.draw do
       post 'create_weekly'
     end
     resources :votes
+    resources :bugs
   end
 end
