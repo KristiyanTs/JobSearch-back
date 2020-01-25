@@ -29,7 +29,8 @@ class MembershipsController < ApplicationController
 
   def destroy
     ids = params[:id].split(',')
-    @group.memberships.where(id: params[:ids]).destroy_all
+    memberships = 
+    @group.memberships.where(id: ids).destroy_all
     render json: :ok
   end
 
