@@ -6,6 +6,8 @@ class Lesson < ApplicationRecord
   has_many :absences, dependent: :delete_all
   has_many :students, through: :attendances, class_name: "User"
 
+  before_update :take_credits
+
   def attach_info
     as_json.merge(
       teacher: teacher,
@@ -72,6 +74,14 @@ class Lesson < ApplicationRecord
       TimeSlot.with_start_and_end_daily(time_slot.start, time_slot.end, 1)
         .with_start_date_greater_than(time_slot.start)
         .destroy_all
+    end
+  end
+
+  def take_credits
+    if self.changes[:completed] && completed
+      group.memberships.each do |m|
+        m.update(credit: m.credit - 1)
+      end
     end
   end
 end

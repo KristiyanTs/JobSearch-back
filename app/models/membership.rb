@@ -5,10 +5,8 @@ class Membership < ApplicationRecord
   has_many :payments, dependent: :nullify
 
   def attach_student
-    
     as_json.merge(
-      student: user,
-      paid: payments.where(month: Date.today.strftime("%B").downcase).any?
+      student: user
     )
   end
 end

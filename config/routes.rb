@@ -33,5 +33,7 @@ Rails.application.routes.draw do
     end
     resources :votes
     resources :bugs
+    resources :pricings
+    resources :locations
   end
 end

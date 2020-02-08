@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_12_204758) do
+ActiveRecord::Schema.define(version: 2020_02_05_142746) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,10 @@ ActiveRecord::Schema.define(version: 2020_01_12_204758) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "pricing_id"
+    t.bigint "location_id"
+    t.index ["location_id"], name: "index_groups_on_location_id"
+    t.index ["pricing_id"], name: "index_groups_on_pricing_id"
     t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
@@ -96,7 +100,16 @@ ActiveRecord::Schema.define(version: 2020_01_12_204758) do
     t.datetime "end_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "completed", default: false
     t.index ["group_id"], name: "index_lessons_on_group_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "address", null: false
+    t.string "title", null: false
+    t.string "color", default: "#1976d2", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -104,6 +117,7 @@ ActiveRecord::Schema.define(version: 2020_01_12_204758) do
     t.bigint "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "credit", precision: 8, scale: 2, default: "0.0"
     t.index ["group_id"], name: "index_memberships_on_group_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
@@ -111,11 +125,17 @@ ActiveRecord::Schema.define(version: 2020_01_12_204758) do
   create_table "payments", force: :cascade do |t|
     t.bigint "membership_id"
     t.integer "amount", default: 0, null: false
-    t.integer "month"
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["membership_id"], name: "index_payments_on_membership_id"
+  end
+
+  create_table "pricings", force: :cascade do |t|
+    t.integer "credit_price", null: false
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
 
   def index
-    render json: Group.all
+    render json: Group.all.order(:updated_at)
   end
 
   def show
@@ -36,6 +36,6 @@ class GroupsController < ApplicationController
 
   private
   def group_params
-    params.require(:group).permit(:name, :start, :information, :lesson_type, :grade, :user_id)
+    params.require(:group).permit(:name, :start, :information, :lesson_type, :grade, :user_id, :pricing_id, :location_id)
   end
 end
