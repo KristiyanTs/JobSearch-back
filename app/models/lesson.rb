@@ -27,11 +27,12 @@ class Lesson < ApplicationRecord
       next if day == period_start.to_i
       day = Time.zone.at(day).to_date
 
-      lessons << { 
+      lessons << {
         group_id: lesson.group_id,
         teacher_id: lesson.teacher_id,
         start_time: Utils.datetime_from_date_and_time(day, time_start),
-        end_time: Utils.datetime_from_date_and_time(day, time_end)
+        end_time: Utils.datetime_from_date_and_time(day, time_end),
+        completed: false
       }
     end
 
