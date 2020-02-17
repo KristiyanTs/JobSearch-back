@@ -19,7 +19,7 @@ class LessonsController < ApplicationController
 
   def create_weekly
     lesson = Lesson.find(params[:id])
-    render json: Lesson.create_weekly(lesson, params[:until])
+    render json: Lesson.create_weekly(lesson, params[:until]).map(&:attach_info)
   end
 
   def update
