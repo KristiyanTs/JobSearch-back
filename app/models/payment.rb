@@ -8,7 +8,7 @@ class Payment < ApplicationRecord
     as_json.merge(
       student: membership.user,
       group: membership.group
-    )
+    ) if membership
   end
 
   def update_credits
