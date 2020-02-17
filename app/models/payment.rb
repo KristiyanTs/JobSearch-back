@@ -21,6 +21,7 @@ class Payment < ApplicationRecord
 
   def add_credits
     credits_count = amount/membership.group.pricing.credit_price
+    credits_count = 1 if amount == 0 ## artificiallly add a credit
     membership.update(credit: membership.credit + credits_count)
   end
 end
