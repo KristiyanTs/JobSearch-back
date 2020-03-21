@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   scope '/api', defaults: { format: 'json' } do
     devise_for :users,
+      defaults: { format: :json },
       path: '',
       path_names: {
         sign_in: 'login',
@@ -13,7 +14,8 @@ Rails.application.routes.draw do
         sessions: 'users/sessions',
         registrations: 'users/registrations',
         passwords: 'users/passwords',
-        confirmations: 'users/confirmations'
+        confirmations: 'users/confirmations',
+        omniauth_callbacks: 'omniauth_callbacks',
       }
     devise_scope :user do
       get '/profile', controller: 'users/registrations', action: :show
@@ -35,5 +37,7 @@ Rails.application.routes.draw do
     resources :bugs
     resources :pricings
     resources :locations
+
+    get '/profiles/:id', to: 'users#show'
   end
 end

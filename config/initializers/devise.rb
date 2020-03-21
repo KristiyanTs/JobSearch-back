@@ -257,7 +257,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-
+  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV["GOOGLE_CLIENT_SECRET"], { prompt: "select_account", provider_ignores_state: true }
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
@@ -291,13 +291,14 @@ Devise.setup do |config|
   config.jwt do |jwt|
     jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
     jwt.dispatch_requests = [
-      ['POST', %r{^/login$}],
-      ['POST', %r{^/confirmation}], 
-      ['GET', %r{^/confirmation}],
-      ['PUT', %r{^/confirmation}]
+      ['POST', %r{^/api/login$}],
+      ['POST', %r{^/api/auth/google_oauth2/callback$}],
+      ['POST', %r{^/api/confirmation}], 
+      ['GET', %r{^/api/confirmation}],
+      ['PUT', %r{^/api/confirmation}]
     ]
     jwt.revocation_requests = [
-      ['DELETE', %r{^/logout$}]
+      ['DELETE', %r{^/api/logout$}]
     ]
     jwt.expiration_time = 2.day.to_i
   end

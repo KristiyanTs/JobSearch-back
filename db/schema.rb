@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_05_142746) do
+ActiveRecord::Schema.define(version: 2020_03_18_214706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,9 @@ ActiveRecord::Schema.define(version: 2020_02_05_142746) do
     t.bigint "lesson_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "signaled_id", default: 0
     t.index ["lesson_id"], name: "index_absences_on_lesson_id"
+    t.index ["signaled_id"], name: "index_absences_on_signaled_id"
     t.index ["user_id"], name: "index_absences_on_user_id"
   end
 
@@ -154,6 +156,8 @@ ActiveRecord::Schema.define(version: 2020_02_05_142746) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "uid", default: ""
+    t.string "provider", default: ""
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

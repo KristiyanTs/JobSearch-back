@@ -9,7 +9,7 @@ require_relative '../app/middlewares/proxy_to_ui'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Infbase
+module BgMentor
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
@@ -24,6 +24,8 @@ module Infbase
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.middleware.use ProxyToUi if %w[development test].include? Rails.env
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
     config.active_job.queue_adapter = :sucker_punch
   end
 end

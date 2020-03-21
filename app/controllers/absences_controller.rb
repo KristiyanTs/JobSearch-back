@@ -14,6 +14,6 @@ class AbsencesController < ApplicationController
   private
 
   def absence_params
-    params.permit(absence: [:user_id, :lesson_id]).require(:absence)
+    params.permit(absence: [:user_id, :lesson_id, :signaled]).require(:absence)
   end
 end

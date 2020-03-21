@@ -11,7 +11,8 @@ class Lesson < ApplicationRecord
   def attach_info
     as_json.merge(
       teacher: teacher,
-      group: group
+      group: group,
+      students: User.where(id: group.memberships.pluck(:id))
     )
   end
 

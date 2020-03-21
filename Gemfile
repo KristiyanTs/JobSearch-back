@@ -27,6 +27,12 @@ gem 'sucker_punch'
 # image processing
 gem 'mini_magick'
 
+gem 'omniauth-google-oauth2'
+# fix for csrf warning, mmore info: https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9284
+gem 'omniauth-rails_csrf_protection', '~> 0.1'
+# fix https://stackoverflow.com/questions/60527005/adding-devise-jwt-to-a-rails-api-how-to-resolve-issue-while-generating-model
+gem 'dry-configurable', '0.9.0'
+
 group :development, :test do
   gem 'rb-readline'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
