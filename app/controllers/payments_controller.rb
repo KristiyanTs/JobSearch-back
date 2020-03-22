@@ -1,4 +1,6 @@
 class PaymentsController < ApplicationController
+  load_and_authorize_resource
+  
   def index
     render json: Payment.all.map(&:attach_info)
   end

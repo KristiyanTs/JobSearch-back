@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  load_and_authorize_resource
+  
   def index
     render json: User.all.map(&:attach_info)
   end

@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
-
+  load_and_authorize_resource
+  
   def index
     render json: Group.all.order(:updated_at)
   end

@@ -32,6 +32,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 0.1'
 # fix https://stackoverflow.com/questions/60527005/adding-devise-jwt-to-a-rails-api-how-to-resolve-issue-while-generating-model
 gem 'dry-configurable', '0.9.0'
+gem 'cancancan'
 
 group :development, :test do
   gem 'rb-readline'
