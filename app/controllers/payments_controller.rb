@@ -39,6 +39,6 @@ class PaymentsController < ApplicationController
 
   private
   def payment_params
-    params.permit(:payments, array: [:membership_id, :note, :amount])
+    params.permit(:payments, array: [:membership_id, :note, :amount]).require(:payments)
   end
 end
