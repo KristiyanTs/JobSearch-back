@@ -4,19 +4,18 @@ class LessonsController < ApplicationController
   def index
     if params[:searching]
       if fulfill_all?
-      puts "hello"
-      @l = Lesson.all()
+        @l = Lesson.all()
 
-      # search by student
-      @l = @l.where(group_id: Membership.where(user_id: params[:user_id]).select(:group_id).distinct()) if params[:user_id]
-      # search by teacher
-      @l = @l.where(teacher_id: params[:teacher_id]) if params[:teacher_id]
+        # search by student
+        @l = @l.where(group_id: Membership.where(user_id: params[:user_id]).select(:group_id).distinct()) if params[:user_id]
+        # search by teacher
+        @l = @l.where(teacher_id: params[:teacher_id]) if params[:teacher_id]
 
-      # search by location
-      @l = @l.where(group_id: Group.where(location_id: params[:loction_id]).select(:id).distinct()) if params[:location_id]
-      
-      # search by group
-      @l = @l.where(group_id: params[:group_id]) if params[:group_id]
+        # search by location
+        @l = @l.where(group_id: Group.where(location_id: params[:loction_id]).select(:id).distinct()) if params[:location_id]
+        
+        # search by group
+        @l = @l.where(group_id: params[:group_id]) if params[:group_id]
       else
         m = Lesson.where(group_id: Membership.where(user_id: params[:user_id]).select(:group_id).distinct()) if params[:user_id]
       
@@ -28,7 +27,7 @@ class LessonsController < ApplicationController
         
         # search by group
         g = Lesson.where(group_id: params[:group_id]) if params[:group_id]
-      @l = [m, t, l, g].reject(&:nil?).reduce(:or).distinct()
+        @l = [m, t, l, g].reject(&:nil?).reduce(:or).distinct()
       end
       render json: @l.map(&:attach_info)
     else

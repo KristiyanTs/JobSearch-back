@@ -30,7 +30,6 @@ class MembershipsController < ApplicationController
 
   def destroy
     ids = params[:id].split(',')
-    memberships = 
     @group.memberships.where(id: ids).destroy_all
     render json: :ok
   end

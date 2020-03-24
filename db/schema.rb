@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_174509) do
   create_table "absences", force: :cascade do |t|
     t.bigint "membership_id"
     t.bigint "lesson_id"
+    t.boolean "excused", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["lesson_id"], name: "index_absences_on_lesson_id"

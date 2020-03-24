@@ -1,13 +1,11 @@
 class AbsencesController < ApplicationController
-  # load_and_authorize_resource
+  load_and_authorize_resource
   
   def index
     render json: Absence.all
   end
 
   def create
-    p "Hello world"
-    p absence_params
     if Absence.create(absence_params)
       render json: Absence.all, status: :ok
     else
@@ -23,7 +21,7 @@ class AbsencesController < ApplicationController
 
   def absence_params
     params.require(:absences).map do |p|
-      p.permit(:user_id, :lesson_id, :excused)
+      p.permit(:membership_id, :lesson_id, :excused)
     end
   end
 end
