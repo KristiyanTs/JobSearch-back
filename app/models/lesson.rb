@@ -12,7 +12,8 @@ class Lesson < ApplicationRecord
     as_json.merge(
       teacher: teacher,
       group: group,
-      students: User.where(id: group.memberships.pluck(:id))
+      students: User.where(id: group.memberships.pluck(:id)),
+      absences: absences
     )
   end
 

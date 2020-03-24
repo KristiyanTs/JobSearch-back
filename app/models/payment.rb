@@ -11,17 +11,16 @@ class Payment < ApplicationRecord
     ) if membership
   end
 
+  def add_credits
+    credits_count = amount/membership.group.pricing.credit_price
+    membership.update(credit: membership.credit + credits_count)
+  end
+
   def update_credits
     if self.changes[:amount]
       change = self.changes[:amount][1] - self.changes[:amount][0]
       credits_count = change/membership.group.pricing.credit_price
       membership.update(credit: membership.credit + credits_count)
     end
-  end
-
-  def add_credits
-    credits_count = amount/membership.group.pricing.credit_price
-    credits_count = 1 if amount == 0 ## artificiallly add a credit
-    membership.update(credit: membership.credit + credits_count)
   end
 end

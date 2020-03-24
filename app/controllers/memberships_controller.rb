@@ -41,6 +41,8 @@ class MembershipsController < ApplicationController
   end
 
   def membership_params
-    params.permit(:memberships, array: [:user_id, :group_id])
+    params.require(:memberships).map do |m|
+      m.permit(:user_id, :group_id)
+    end
   end
 end

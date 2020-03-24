@@ -13,7 +13,6 @@ class ProxyToUi < Rack::Proxy
     if env['HTTP_HOST'] != original_host
       perform_request(env)
     else
-      # just regular
       @app.call(env)
     end
   end

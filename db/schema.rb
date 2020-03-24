@@ -16,13 +16,12 @@ ActiveRecord::Schema.define(version: 2020_03_23_174509) do
   enable_extension "plpgsql"
 
   create_table "absences", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "membership_id"
     t.bigint "lesson_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "excused", default: false
     t.index ["lesson_id"], name: "index_absences_on_lesson_id"
-    t.index ["user_id"], name: "index_absences_on_user_id"
+    t.index ["membership_id"], name: "index_absences_on_membership_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -175,7 +174,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_174509) do
   end
 
   add_foreign_key "absences", "lessons"
-  add_foreign_key "absences", "users"
+  add_foreign_key "absences", "memberships"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendances", "lessons"
   add_foreign_key "attendances", "users"
