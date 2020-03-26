@@ -1,5 +1,4 @@
 class GroupsController < ApplicationController
-  load_and_authorize_resource
   
   def index
     render json: Group.all.order(:updated_at)
@@ -10,6 +9,7 @@ class GroupsController < ApplicationController
 
   def create
     @group = Group.new(group_params)
+    authorize @group
 
     if @group.save
       render json: @group, status: :ok
@@ -20,6 +20,7 @@ class GroupsController < ApplicationController
 
   def update
     @group = Group.find(params[:id])
+    authorize @group
 
     if @group.update(group_params)
       render json: @group
@@ -30,6 +31,7 @@ class GroupsController < ApplicationController
 
   def destroy
     @group = Group.find(params[:id])
+    authorize @group
     @group.destroy
 
     render json: :ok

@@ -1,12 +1,18 @@
 class AbsencesController < ApplicationController
-  load_and_authorize_resource
   
   def index
     render json: Absence.all
   end
 
   def create
-    if Absence.create(absence_params)
+    @absences = []
+    absence_params.each do |abs_params|
+      @absence = Absence.new(abs_params)
+      authorize @absence
+      @absences << @absence
+    end
+
+    if @absences.each(&:save)
       render json: Absence.all, status: :ok
     else
       render status: :unprocessable_entity

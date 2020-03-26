@@ -1,5 +1,4 @@
 class PricingsController < ApplicationController
-  load_and_authorize_resource
   
   def index
     render json: Pricing.all
@@ -7,6 +6,7 @@ class PricingsController < ApplicationController
 
   def create
     pricing = Pricing.new(pricing_params)
+    authorize pricing
     
     if pricing.save
       render json: pricing, status: :ok
@@ -17,6 +17,7 @@ class PricingsController < ApplicationController
 
   def update
     pricing = Pricing.find(params[:id])
+    authorize pricing
 
     if pricing.update(pricing_params)
       render json: pricing, status: :ok
@@ -27,6 +28,7 @@ class PricingsController < ApplicationController
 
   def destroy
     pricing = Pricing.find(params[:id])
+    authorize pricing
 
     if pricing.destroy
       render json: :ok

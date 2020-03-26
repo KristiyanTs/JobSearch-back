@@ -1,5 +1,4 @@
 class PaymentsController < ApplicationController
-  load_and_authorize_resource
   
   def index
     render json: Payment.all.map(&:attach_info)
@@ -10,7 +9,14 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    if payments = Payment.create(payment_params)
+    payments = []
+    payment_params.each do |payment_p|
+      payment = Payment.new(payment_p)
+      authorize payment
+      payments << payment
+    end
+
+    if payments.each(&:save)
       render json: payments.map(&:attach_info), status: :ok
     else
       render status: :unprocessable_entity
@@ -19,6 +25,7 @@ class PaymentsController < ApplicationController
 
   def update
     payment = Payment.find(params[:id])
+    authorize payment
 
     if payment.update(payment_params)
       render json: payment.attach_info
@@ -29,7 +36,8 @@ class PaymentsController < ApplicationController
 
   def destroy
     payment = Payment.find(params[:id])
-
+    authorize payment
+    
     if payment.destroy
       render json: :ok
     else

@@ -2,8 +2,9 @@
 
 class ApplicationController < ActionController::API
   include Response
-  # before_action :authenticate_user!
   respond_to :json
+  include Pundit
+  # protect_from_forgery
 
   def render_resource(resource)
     if resource.errors.empty?

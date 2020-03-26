@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  load_and_authorize_resource
   
   def index
     render json: User.all.map(&:attach_info)
@@ -14,6 +13,7 @@ class UsersController < ApplicationController
     user_params['password_confirmation'] = "12341234"
 
     @user = User.new(user_params)
+    authorize @user
     @user.confirm
 
     if @user.save(validate: false)
@@ -25,6 +25,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    authorize @user
 
     if @user.update(user_params)
       render json: @user
@@ -35,6 +36,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
+    authorize @user
     @user.destroy
 
     render json: :ok

@@ -1,5 +1,4 @@
 class MembershipsController < ApplicationController
-  load_and_authorize_resource
   before_action :set_group
 
   def index
@@ -11,7 +10,10 @@ class MembershipsController < ApplicationController
   end
 
   def create
-    if Membership.create(membership_params)
+    membership = Membership.new(membership_params)
+    authorize membership
+
+    if membership.save
       render json: @group.memberships.map(&:attach_student), status: :ok
     else
       render status: :unprocessable_entity
@@ -20,6 +22,7 @@ class MembershipsController < ApplicationController
 
   def update
     @membership = @group.memberships.find(params[:id])
+    authorize @membership
 
     if @membership.update(membership_params)
       render json: @membership
@@ -30,7 +33,11 @@ class MembershipsController < ApplicationController
 
   def destroy
     ids = params[:id].split(',')
-    @group.memberships.where(id: ids).destroy_all
+    @group.memberships.where(id: ids).each do |mem|
+      authorize mem
+      mem.destroy
+    end
+
     render json: :ok
   end
 

@@ -7,7 +7,7 @@ class InterestsController < ApplicationController
   end
 
   def create
-    @interest = Interest.new(interest_params)
+    @interest = Interest.create(interest_params)
 
     if @interest.save
       render json: @interest, status: :ok

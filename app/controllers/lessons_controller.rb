@@ -1,5 +1,4 @@
 class LessonsController < ApplicationController
-  load_and_authorize_resource
   
   def index
     if params[:searching]
@@ -40,12 +39,13 @@ class LessonsController < ApplicationController
   end
 
   def create
-    lesson = Lesson.new(lesson_params)
+    @lesson = Lesson.new(lesson_params)
+    authorize @lesson
 
-    if lesson.save
-      render json: lesson.attach_info, status: :ok
+    if @lesson.save
+      render json: @lesson.attach_info, status: :ok
     else
-      render json: lesson.errors, status: :unprocessable_entity
+      render json: @lesson.errors, status: :unprocessable_entity
     end
   end
 
@@ -56,6 +56,7 @@ class LessonsController < ApplicationController
 
   def update
     lesson = Lesson.find(params[:id])
+    authorize lesson
 
     if lesson.update(lesson_params)
       render json: lesson.attach_info, status: :ok
@@ -66,6 +67,8 @@ class LessonsController < ApplicationController
 
   def destroy
     lesson = Lesson.find(params[:id])
+    authorize lesson
+    
     if lesson.destroy 
       render json: :ok
     else
