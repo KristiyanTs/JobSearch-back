@@ -7,7 +7,7 @@ class Absence < ApplicationRecord
 
   # add a credit if the user has warned us about an absence
   def add_credits
-    return unless excused && membership.credit > 0
+    return unless excused
     membership.update(credit: membership.credit + 1)
   end
 
