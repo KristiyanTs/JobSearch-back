@@ -18,7 +18,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     #   methods: %i[get post put patch delete options head]
     # )
 
-    origins 'http://localhost:8080'
+    origins 'https://bgmentor.com'
 
     resource '*',
               headers: :any,
