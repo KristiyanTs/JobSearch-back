@@ -10,10 +10,14 @@ class MembershipsController < ApplicationController
   end
 
   def create
-    membership = Membership.new(membership_params)
-    authorize membership
+    memberships = []
+    membership_params.each do |mem_p|
+      membership = Membership.new(mem_p)
+      authorize membership
+      memberships << membership
+    end
 
-    if membership.save
+    if memberships.each(&:save)
       render json: @group.memberships.map(&:attach_student), status: :ok
     else
       render status: :unprocessable_entity
