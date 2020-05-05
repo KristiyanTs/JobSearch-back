@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_05_113215) do
+ActiveRecord::Schema.define(version: 2020_04_22_175738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,14 @@ ActiveRecord::Schema.define(version: 2020_04_05_113215) do
     t.datetime "updated_at", null: false
     t.index ["lesson_id"], name: "index_absences_on_lesson_id"
     t.index ["membership_id"], name: "index_absences_on_membership_id"
+  end
+
+  create_table "academies", force: :cascade do |t|
+    t.string "name"
+    t.string "contact_number"
+    t.decimal "balance", precision: 12, scale: 2, default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -44,15 +52,6 @@ ActiveRecord::Schema.define(version: 2020_04_05_113215) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
-
-  create_table "attendances", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "lesson_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lesson_id"], name: "index_attendances_on_lesson_id"
-    t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
   create_table "bugs", force: :cascade do |t|
@@ -126,10 +125,14 @@ ActiveRecord::Schema.define(version: 2020_04_05_113215) do
 
   create_table "payments", force: :cascade do |t|
     t.bigint "membership_id"
-    t.integer "amount", default: 0, null: false
+    t.decimal "amount", precision: 6, scale: 2, default: "0.0", null: false
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "recipient_id"
+    t.string "recipient_type"
+    t.bigint "payer_id"
+    t.string "payer_type"
     t.index ["membership_id"], name: "index_payments_on_membership_id"
   end
 
@@ -158,6 +161,8 @@ ActiveRecord::Schema.define(version: 2020_04_05_113215) do
     t.datetime "updated_at", null: false
     t.string "uid", default: ""
     t.string "provider", default: ""
+    t.decimal "balance", precision: 8, scale: 2, default: "0.0"
+    t.decimal "credit", precision: 8, scale: 2, default: "0.0"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -178,8 +183,6 @@ ActiveRecord::Schema.define(version: 2020_04_05_113215) do
   add_foreign_key "absences", "lessons"
   add_foreign_key "absences", "memberships"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "attendances", "lessons"
-  add_foreign_key "attendances", "users"
   add_foreign_key "groups", "users"
   add_foreign_key "lessons", "groups"
   add_foreign_key "memberships", "groups"

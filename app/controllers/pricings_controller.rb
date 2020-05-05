@@ -6,8 +6,9 @@ class PricingsController < ApplicationController
 
   def create
     pricing = Pricing.new(pricing_params)
+
     authorize pricing
-    
+
     if pricing.save
       render json: pricing, status: :ok
     else

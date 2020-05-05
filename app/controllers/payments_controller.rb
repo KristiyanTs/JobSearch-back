@@ -10,8 +10,35 @@ class PaymentsController < ApplicationController
 
   def create
     payments = []
+    
     payment_params.each do |payment_p|
       payment = Payment.new(payment_p)
+
+      if payment.membership_id
+        payment.payer_id = payment.membership_id
+        payment.payer_type = 'Membership'
+
+        if current_user.admin?
+          payment.recipient = Academy.first
+          payment.recipient_id = 1
+          payment.recipient_type = 'Academy'
+        else
+          payment.recipient = current_user
+          payment.recipient_id = current_user.id
+          payment.recipient_type = 'User'
+        end
+      else
+        if payment.payer_id
+          payment.recipient = Academy.first
+          payment.recipient_id = 1
+          payment.recipient_type = 'Academy'
+        elsif payment.recipient_id
+          payment.payer = Academy.first
+          payment.payer_id = 1
+          payment.payer_type = 'Academy'
+        end
+      end
+
       authorize payment
       payments << payment
     end
@@ -48,7 +75,7 @@ class PaymentsController < ApplicationController
   private
   def payment_params
     params.require(:payments).map do |p|
-      p.permit(:membership_id, :note, :amount)
+      p.permit(:membership_id, :note, :amount, :payer_id, :payer_type, :recipient_id, :recipient_type)
     end
   end
 end

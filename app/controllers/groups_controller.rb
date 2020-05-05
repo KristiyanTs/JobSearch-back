@@ -8,31 +8,32 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = Group.new(group_params)
-    authorize @group
+    group = Group.new(group_params)
 
-    if @group.save
-      render json: @group, status: :ok
+    authorize group
+
+    if group.save
+      render json: group, status: :ok
     else
-      render json: @group.errors, status: :unprocessable_entity
+      render json: group.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    @group = Group.find(params[:id])
-    authorize @group
+    group = Group.find(params[:id])
+    authorize group
 
-    if @group.update(group_params)
-      render json: @group
+    if group.update(group_params)
+      render json: group
     else
-      render json: @group.errors
+      render json: group.errors
     end
   end
 
   def destroy
-    @group = Group.find(params[:id])
-    authorize @group
-    @group.destroy
+    group = Group.find(params[:id])
+    authorize group
+    group.destroy
 
     render json: :ok
   end

@@ -6,9 +6,19 @@ class Group < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :lessons, dependent: :destroy
 
-  enum lesson: [:individual, :collective]
+  enum lesson_type: [:individual, :collective]
   
   def students
     memberships.map(&:user)
+  end
+
+  def academia_cut lesson
+    if lesson_type == 'individual'
+      return 0.25
+    else
+      if lesson.attendances.length < 3
+        return 
+      end
+    end
   end
 end

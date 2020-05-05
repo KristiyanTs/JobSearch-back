@@ -2,11 +2,10 @@ class Lesson < ApplicationRecord
   belongs_to :group
   belongs_to :teacher, class_name: "User", foreign_key: 'teacher_id'
 
-  has_many :attendances, dependent: :delete_all
   has_many :absences, dependent: :delete_all
   has_many :students, through: :attendances, class_name: "User"
 
-  before_update :take_credits
+  before_update :take_membership_credit,  :give_teacher_credit
 
   def attach_info
     as_json.merge(
@@ -80,11 +79,25 @@ class Lesson < ApplicationRecord
     end
   end
 
-  def take_credits
+  def take_membership_credit
     if self.changes[:completed] && completed
       group.memberships.each do |m|
         m.update(credit: m.credit - 1)
       end
+    end
+  end
+
+  def give_teacher_credit
+    if self.changes[:completed] && completed
+      if group.lesson_type == "individual"
+        new_credit = ((group.pricing.credit_price.to_f * 2)/3).ceil
+      else
+        attended_count = students.count - absences.count
+        attended_count = 3 if attended_count < 3
+        new_credit = group.pricing.credit_price * (1+0.2*attended_count.to_f)
+      end
+
+      teacher.update(credit: teacher.credit + new_credit)
     end
   end
 end
