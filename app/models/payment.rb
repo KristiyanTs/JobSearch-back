@@ -11,9 +11,8 @@ class Payment < ApplicationRecord
   def attach_info
     if payer && payer.class.name == 'Membership' 
       return as_json.merge(
-        student: payer.user,
         group: payer.group,
-        payer: payer,
+        payer: payer.user,
         recipient: recipient
       )
     else
