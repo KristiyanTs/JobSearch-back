@@ -3,7 +3,6 @@ class Lesson < ApplicationRecord
   belongs_to :teacher, class_name: "User", foreign_key: 'teacher_id'
 
   has_many :absences, dependent: :delete_all
-  has_many :students, through: :attendances, class_name: "User"
 
   before_update :take_membership_credit,  :give_teacher_credit
 
@@ -92,7 +91,7 @@ class Lesson < ApplicationRecord
       if group.lesson_type == "individual"
         new_credit = ((group.pricing.credit_price.to_f * 2)/3).ceil
       else
-        attended_count = students.count - absences.count
+        attended_count = group.memberships.count - absences.count
         attended_count = 3 if attended_count < 3
         new_credit = group.pricing.credit_price * (1+0.2*attended_count.to_f)
       end
