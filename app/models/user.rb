@@ -12,7 +12,6 @@ class User < ApplicationRecord
   
   has_many :children, class_name: 'User', foreign_key: 'parent_id'
   has_many :lessons
-  has_many :attendances, dependent: :delete_all
   has_many :memberships, dependent: :delete_all
   has_many :groups, dependent: :nullify
   has_many :groups, through: :memberships
