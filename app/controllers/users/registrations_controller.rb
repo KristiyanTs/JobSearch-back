@@ -15,7 +15,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
     resource.avatar.attach(account_update_params[:avatar]) if account_update_params[:avatar]
-    resource_updated = resource.update_without_password(account_update_params)
+
+    print (account_update_params["password"]&.present?)
+    print '============================='
+
+    if account_update_params["password"]&.present?
+      print "With password"
+      resource_updated = resource.update_with_password(account_update_params)
+    else
+      print "Without password"
+      resource_updated = resource.update_without_password(account_update_params)
+    end
+
     yield resource if block_given?
 
     if resource_updated
