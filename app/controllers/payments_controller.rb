@@ -1,4 +1,5 @@
 class PaymentsController < ApplicationController
+  # before_action :authenticate_user!
   
   def index
     render json: Payment.all.map(&:attach_info)
@@ -10,6 +11,7 @@ class PaymentsController < ApplicationController
 
   def create
     payments = []
+    p current_user
     
     payment_params.each do |payment_p|
       payment = Payment.new(payment_p)
@@ -18,7 +20,7 @@ class PaymentsController < ApplicationController
         payment.payer_id = payment.membership_id
         payment.payer_type = 'Membership'
 
-        if current_user.admin?
+        if current_user.admin
           payment.recipient = Academy.first
           payment.recipient_id = 1
           payment.recipient_type = 'Academy'

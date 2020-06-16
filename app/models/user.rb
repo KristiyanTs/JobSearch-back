@@ -51,7 +51,7 @@ class User < ApplicationRecord
   def attach_info
     if student?
       as_json.merge(
-        memberships: memberships,
+        memberships: memberships.map(&:attach_payments), 
         groups: groups
       )
     elsif guardian?

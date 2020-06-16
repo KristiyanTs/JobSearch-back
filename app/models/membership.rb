@@ -8,7 +8,14 @@ class Membership < ApplicationRecord
 
   def attach_student
     as_json.merge(
-      student: user
+      student: user,
+      payments: payments
+    )
+  end
+
+  def attach_payments
+    as_json.merge(
+      payments: payments
     )
   end
 end
