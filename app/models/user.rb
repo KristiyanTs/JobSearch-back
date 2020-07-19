@@ -18,6 +18,8 @@ class User < ApplicationRecord
   has_many :payments, as: :recipient, dependent: :nullify
   has_many :payments, as: :payer, dependent: :nullify
 
+  has_one_attached :image
+
   enum role: [:student, :guardian, :teacher]
   after_initialize :set_default_role, :if => :new_record?
   

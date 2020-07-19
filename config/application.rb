@@ -3,6 +3,7 @@
 require_relative 'boot'
 
 require 'rails/all'
+require "active_storage/engine"
 require_relative '../app/middlewares/proxy_to_ui'
 
 # Require the gems listed in Gemfile, including any gems

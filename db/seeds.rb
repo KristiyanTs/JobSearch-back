@@ -1,25 +1,40 @@
 # frozen_string_literal: true
+require 'faker'
 
 users = [
-  { name: 'Ivan1 Petkov',  email: 'john1@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan2 Petkov',  email: 'john2@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan3 Petkov',  email: 'john3@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan4 Petkov',  email: 'john4@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan5 Petkov',  email: 'john5@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan6 Petkov',  email: 'john6@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan7 Petkov',  email: 'john7@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan8 Petkov',  email: 'john8@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan9 Petkov',  email: 'john9@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan0 Petkov',  email: 'john10@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan11 Petkov', email: 'john11@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan12 Petkov', email: 'john12@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan13 Petkov', email: 'john13@gmail.com', password: 'password', password_confirmation: 'password' },
-  { name: 'Ivan14 Petkov', email: 'john14@gmail.com', password: 'password', password_confirmation: 'password' }
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 2 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 2 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 2 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 2 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 2 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 2 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 2 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 1 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 },
+  { name: Faker::Name.name , email: Faker::Internet.email, password: 'pass1234A!', password_confirmation: 'pass1234A!', role: 0 }
 ]
 
 users.each do |user_params|
-  u = User.find_or_create_by(user_params)
-  u.confirmed_at = Time.now
+  u = User.new(user_params)
+  u.skip_confirmation!
   u.save
 end
 

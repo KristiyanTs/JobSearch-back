@@ -7,6 +7,8 @@ class Group < ApplicationRecord
   has_many :lessons, dependent: :destroy
 
   enum lesson_type: [:individual, :collective]
+
+  acts_as_taggable_on :subject
   
   def students
     memberships.map(&:user)

@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/faker-ruby/faker.git
+  revision: 3f72057a7522849243c4c7fa8d0527580588cbcf
+  branch: master
+  specs:
+    faker (2.13.0)
+      i18n (>= 1.6, < 2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -42,6 +50,8 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    acts-as-taggable-on (6.5.0)
+      activerecord (>= 5.0, < 6.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     annotate (3.1.1)
@@ -254,6 +264,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts-as-taggable-on (~> 6.0)
   annotate
   bootsnap (>= 1.1.0)
   byebug
@@ -262,6 +273,7 @@ DEPENDENCIES
   devise-jwt
   dry-configurable (= 0.9.0)
   factory_bot_rails (~> 4.8)
+  faker!
   listen
   mini_magick
   omniauth-google-oauth2

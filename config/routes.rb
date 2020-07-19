@@ -39,5 +39,6 @@ Rails.application.routes.draw do
     resources :locations
 
     get '/profiles/:id', to: 'users#show'
+    get '/search', to: 'searches#index'
   end
 end
