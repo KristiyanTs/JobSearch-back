@@ -22,21 +22,7 @@ Rails.application.routes.draw do
       put '/profile/update', controller: 'users/registrations', action: :update_profile
       put '/confirmation' => 'users/confirmations#update'
     end
-
-    resources :interests
-    resources :groups do
-      resources :memberships
-    end
-    resources :payments
     resources :users
-    resources :absences, only: [:index, :create]
-    resources :lessons do
-      post 'create_weekly'
-    end
-    resources :votes
-    resources :bugs
-    resources :pricings
-    resources :locations
 
     get '/profiles/:id', to: 'users#show'
     get '/search', to: 'searches#index'

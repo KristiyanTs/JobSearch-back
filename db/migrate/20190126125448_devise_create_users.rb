@@ -6,8 +6,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
 
       # Custom fields
       t.string :name, null: false
-      t.integer :role, null: false, default: 0
-      t.integer :parent_id
       t.boolean :admin, default: false, null: false
 
       ## Database authenticatable
