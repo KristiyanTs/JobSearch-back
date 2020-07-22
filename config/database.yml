@@ -6,14 +6,14 @@ default: &default
 
 development:
   <<: *default
-  database: bgmentor_development
+  database: tradelog_development
   username: bgmentor
   password: <%= ENV['DATABASE_PASSWORD'] %>
   host: <% if ENV['DOCKERIZED'] == 'true' %>database<% else %>'localhost'<% end %>
 
 test:
   <<: *default
-  database: bgmentor_test
+  database: tradelog_test
 
 production:
   <<: *default

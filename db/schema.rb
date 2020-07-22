@@ -10,28 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_19_222747) do
+ActiveRecord::Schema.define(version: 2019_08_11_085143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "absences", force: :cascade do |t|
-    t.bigint "membership_id"
-    t.bigint "lesson_id"
-    t.boolean "excused", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lesson_id"], name: "index_absences_on_lesson_id"
-    t.index ["membership_id"], name: "index_absences_on_membership_id"
-  end
-
-  create_table "academies", force: :cascade do |t|
-    t.string "name"
-    t.string "contact_number"
-    t.decimal "balance", precision: 12, scale: 2, default: "0.0"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -54,126 +36,14 @@ ActiveRecord::Schema.define(version: 2020_07_19_222747) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "bugs", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "description"
-    t.boolean "fixed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "groups", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "grade", null: false
-    t.integer "lesson_type", null: false
-    t.text "information"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "pricing_id"
-    t.bigint "location_id"
-    t.index ["location_id"], name: "index_groups_on_location_id"
-    t.index ["pricing_id"], name: "index_groups_on_pricing_id"
-    t.index ["user_id"], name: "index_groups_on_user_id"
-  end
-
-  create_table "interests", force: :cascade do |t|
-    t.string "name"
-    t.string "phone", null: false
-    t.string "grade"
-    t.string "lesson"
-    t.boolean "active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "subject"
-  end
-
   create_table "jwt_blacklist", force: :cascade do |t|
     t.string "jti", null: false
     t.datetime "exp", null: false
     t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
-  create_table "lessons", force: :cascade do |t|
-    t.bigint "group_id"
-    t.integer "teacher_id"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "completed", default: false
-    t.index ["group_id"], name: "index_lessons_on_group_id"
-  end
-
-  create_table "locations", force: :cascade do |t|
-    t.string "address", null: false
-    t.string "title", null: false
-    t.string "color", default: "#1976d2", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "memberships", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.decimal "credit", precision: 8, scale: 2, default: "0.0"
-    t.index ["group_id"], name: "index_memberships_on_group_id"
-    t.index ["user_id"], name: "index_memberships_on_user_id"
-  end
-
-  create_table "payments", force: :cascade do |t|
-    t.bigint "membership_id"
-    t.decimal "amount", precision: 6, scale: 2, default: "0.0", null: false
-    t.text "note"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "recipient_id"
-    t.string "recipient_type"
-    t.bigint "payer_id"
-    t.string "payer_type"
-    t.index ["membership_id"], name: "index_payments_on_membership_id"
-  end
-
-  create_table "pricings", force: :cascade do |t|
-    t.integer "credit_price", null: false
-    t.string "title", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "taggings", id: :serial, force: :cascade do |t|
-    t.integer "tag_id"
-    t.string "taggable_type"
-    t.integer "taggable_id"
-    t.string "tagger_type"
-    t.integer "tagger_id"
-    t.string "context", limit: 128
-    t.datetime "created_at"
-    t.index ["context"], name: "index_taggings_on_context"
-    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "taggings_taggable_context_idx"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
-    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
-  end
-
-  create_table "tags", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "taggings_count", default: 0
-    t.index ["name"], name: "index_tags_on_name", unique: true
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "role", default: 0, null: false
-    t.integer "parent_id"
     t.boolean "admin", default: false, null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -186,34 +56,10 @@ ActiveRecord::Schema.define(version: 2020_07_19_222747) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "uid", default: ""
-    t.string "provider", default: ""
-    t.decimal "balance", precision: 8, scale: 2, default: "0.0"
-    t.decimal "credit", precision: 8, scale: 2, default: "0.0"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "votes", force: :cascade do |t|
-    t.boolean "programming"
-    t.boolean "english"
-    t.boolean "bulgarian"
-    t.boolean "finance"
-    t.boolean "other"
-    t.string "other_text"
-    t.string "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_foreign_key "absences", "lessons"
-  add_foreign_key "absences", "memberships"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "groups", "users"
-  add_foreign_key "lessons", "groups"
-  add_foreign_key "memberships", "groups"
-  add_foreign_key "memberships", "users"
-  add_foreign_key "payments", "memberships"
-  add_foreign_key "taggings", "tags"
 end
